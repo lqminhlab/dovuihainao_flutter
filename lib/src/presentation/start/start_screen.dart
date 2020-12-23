@@ -1,4 +1,6 @@
 import 'package:dovuihainao_flutter/src/configs/configs.dart';
+import 'package:dovuihainao_flutter/src/resource/model/process.dart';
+import 'package:dovuihainao_flutter/src/utils/app_shared.dart';
 import 'package:flutter/material.dart';
 import '../base/base.dart';
 import 'package:provider/provider.dart';
@@ -7,12 +9,13 @@ import '../presentation.dart';
 
 class StartScreen extends StatelessWidget {
   StartViewModel _viewModel;
+
   @override
   Widget build(BuildContext context) {
     return BaseWidget<StartViewModel>(
         viewModel: StartViewModel(repository: Provider.of(context)),
         onViewModelReady: (viewModel) {
-          _viewModel = viewModel.init();
+          _viewModel = viewModel..init();
         },
         builder: (context, viewModel, child) {
           return _buildBody(context);
@@ -50,7 +53,11 @@ class StartScreen extends StatelessWidget {
   }
 
   Widget _buildLevel() {
-    return Text("LV1");
+    return StreamBuilder<ProcessModel>(
+        stream: AppShared.watchProcess(),
+        builder: (context, snapshot) {
+          return Text("LV ${snapshot.data?.score ?? 1}");
+        });
   }
 
   Widget _buildButtonNavigator() {

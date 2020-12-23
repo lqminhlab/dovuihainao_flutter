@@ -35,48 +35,28 @@ class _WidgetImageButtonState extends State<WidgetImageButton> {
   ImageProvider imagePressed;
   ImageProvider imageUnPressed;
   Image currentImage;
-  Function _action;
   bool preloaded = false;
-  List<Widget> _children;
-  List<Widget> _label = [];
 
   @override
   void initState() {
     super.initState();
-
     imagePressed = widget.pressedImage.image;
     imageUnPressed = widget.pressedImage.image;
     currentImage = widget.unpressedImage;
     paddingTop = 0.0;
-
-    _action = widget.onTap;
-    if (widget.onTap == null) {
-      _action = _doNothing;
-    }
-
-    if (widget.label != null) {
-      _label.add(widget.label);
-    }
-    _children = widget.children;
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-
     precacheImage(imagePressed, context);
     precacheImage(imageUnPressed, context);
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: _action,
+      onTap: widget.onTap ?? _doNothing,
       onTapCancel: () {
         setState(() {
           currentImage = widget.unpressedImage;
@@ -108,16 +88,16 @@ class _WidgetImageButtonState extends State<WidgetImageButton> {
                           fit: BoxFit.fill,
                           alignment: Alignment(0, 0),
                           image: currentImage.image)),
-                  child: _children == null
+                  child: widget.children == null
                       ? const SizedBox()
                       : Row(
                           mainAxisAlignment: widget.mainAxisAlignment,
                           crossAxisAlignment: widget.crossAxisAlignment,
-                          children: _children,
+                          children: widget.children,
                         ),
                 )
               ] +
-              _label),
+              [widget.label ?? SizedBox()]),
     );
   }
 

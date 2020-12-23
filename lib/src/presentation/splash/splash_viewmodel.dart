@@ -1,5 +1,6 @@
 import 'package:dovuihainao_flutter/src/configs/configs.dart';
 import 'package:dovuihainao_flutter/src/presentation/presentation.dart';
+import 'package:dovuihainao_flutter/src/resource/model/process.dart';
 import 'package:dovuihainao_flutter/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import '../../resource/resource.dart';
@@ -37,12 +38,26 @@ class SplashViewModel extends BaseViewModel {
   SplashViewModel({@required this.repository});
 
   init(BuildContext context) async {
+    ProcessModel process = await AppShared.getProcess();
+    int index;
+    if (process == null ||
+        process.offset == null ||
+        process.questions == null) {
+      index = 0;
+      process = ProcessModel(score: 1, offset: index, heart: 5);
+    } else {
+      index = process.offset - process.questions.length;
+      process.copyWith(heart: 5);
+    }
     final NetworkState<List<QuestionModel>> rs =
-        await repository.getQuestionByIndex();
-    final otherApp = rs.data;
-    print("Questions: ${otherApp ?? "Null!"}");
-    AppPreloadAsset.preloadImages(context: context, images: images);
-    AppPreloadAsset.preloadSounds(sounds: sounds);
-    Navigator.pushNamed(context, Routers.start);
+        await repository.getQuestionByIndex(index: index);
+    if (rs?.data != null && rs?.data?.length != 0) {
+      await AppShared.setProcess(process.copyWith(questions: rs.data));
+      AppPreloadAsset.preloadImages(context: context, images: images);
+      AppPreloadAsset.preloadSounds(sounds: sounds);
+      Navigator.pushNamed(context, Routers.start);
+    } else {
+      print("Error get question!");
+    }
   }
 }
