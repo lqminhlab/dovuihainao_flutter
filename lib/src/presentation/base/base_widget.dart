@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'base_viewmodel.dart';
 
 class BaseWidget<T extends BaseViewModel> extends StatefulWidget {
-  final Widget Function(BuildContext context, T viewModel, Widget child) builder;
+  final Widget Function(BuildContext context, T viewModel, Widget child)
+      builder;
   final T viewModel;
   final Widget child;
   final Function(T viewModel) onViewModelReady;
@@ -25,6 +27,7 @@ class _BaseWidgetState<T extends BaseViewModel> extends State<BaseWidget<T>> {
 
   @override
   void initState() {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     viewModel = widget.viewModel;
     if (widget.onViewModelReady != null) {
       widget.onViewModelReady(viewModel);

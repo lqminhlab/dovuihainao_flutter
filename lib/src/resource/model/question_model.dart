@@ -66,4 +66,14 @@ class QuestionModel {
     return map;
   }
 
+  static List<QuestionModel> listFromJson(dynamic json){
+    List<QuestionModel> questions = [];
+    if (json != null) {
+      json.forEach((v) {
+        questions.add(QuestionModel.fromJson(v));
+      });
+    }
+    return questions;
+  }
+
 }

@@ -9,8 +9,8 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseWidget<SplashViewModel>(
         viewModel: SplashViewModel(repository: Provider.of(context)),
-        onViewModelReady: (viewModel) {
-          viewModel.init();
+        onViewModelReady: (viewModel) async {
+          viewModel.init(context);
         },
         builder: (context, viewModel, child) {
           return _buildBody(context);
@@ -18,13 +18,28 @@ class SplashScreen extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Center(
-          child: Text(AppLocalizations.of(context).translate("app_name")),
+    return Stack(
+      children: [
+        Container(
+          width: double.maxFinite,
+          height: double.maxFinite,
+          decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage(AppImages.bgStart), fit: BoxFit.cover)),
         ),
-      ),
+        SafeArea(
+            child: Center(
+          child: Container(
+            width: double.maxFinite,
+            padding:
+                const EdgeInsets.only(top: 15, bottom: 35, left: 15, right: 15),
+            child: Image.asset(
+              AppImages.imgBanner,
+              fit: BoxFit.contain,
+            ),
+          ),
+        )),
+      ],
     );
   }
 }

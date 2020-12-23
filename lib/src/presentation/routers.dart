@@ -1,15 +1,21 @@
+import 'package:dovuihainao_flutter/src/presentation/presentation.dart';
 import 'package:flutter/material.dart';
 
-import 'navigation/navigation_screen.dart';
-
 class Routers {
-  static const String navigation = "/";
+  static const String splash = "/";
+  static const String start = "/start";
+  static const String home = "/home";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    var arguments = settings.arguments;
     switch (settings.name) {
-      case navigation:
-        return animRoute(NavigationScreen(), name: navigation);
+      case splash:
+        return animRoute(SplashScreen());
+        break;
+      case start:
+        return animRoute(StartScreen());
+        break;
+      case home:
+        return animRoute(HomeScreen());
         break;
       default:
         return animRoute(Container(

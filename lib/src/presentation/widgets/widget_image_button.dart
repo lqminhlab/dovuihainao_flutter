@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ImageButton extends StatefulWidget {
+class WidgetImageButton extends StatefulWidget {
   final List<Widget> children;
   final MainAxisAlignment mainAxisAlignment;
   final CrossAxisAlignment crossAxisAlignment;
@@ -12,25 +12,25 @@ class ImageButton extends StatefulWidget {
   final onTap;
   final Widget label;
 
-  const ImageButton(
+  const WidgetImageButton(
       {Key key,
-        @required this.children,
-        @required this.unpressedImage,
-        @required this.pressedImage,
-        this.label,
-        this.onTap,
-        this.width,
-        this.height,
-        this.paddingTop = 5,
-        this.mainAxisAlignment = MainAxisAlignment.center,
-        this.crossAxisAlignment = CrossAxisAlignment.center})
+      this.children,
+      @required this.unpressedImage,
+      @required this.pressedImage,
+      this.label,
+      this.onTap,
+      this.width,
+      this.height,
+      this.paddingTop = 5,
+      this.mainAxisAlignment = MainAxisAlignment.center,
+      this.crossAxisAlignment = CrossAxisAlignment.center})
       : super(key: key);
 
   @override
-  _ImageButtonState createState() => _ImageButtonState();
+  _WidgetImageButtonState createState() => _WidgetImageButtonState();
 }
 
-class _ImageButtonState extends State<ImageButton> {
+class _WidgetImageButtonState extends State<WidgetImageButton> {
   double paddingTop;
   ImageProvider imagePressed;
   ImageProvider imageUnPressed;
@@ -99,22 +99,24 @@ class _ImageButtonState extends State<ImageButton> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Container(
-              height: widget.height,
-              width: widget.width,
-              padding: EdgeInsets.only(top: paddingTop),
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.fill,
-                      alignment: Alignment(0, 0),
-                      image: currentImage.image)),
-              child: Row(
-                mainAxisAlignment: widget.mainAxisAlignment,
-                crossAxisAlignment: widget.crossAxisAlignment,
-                children: _children,
-              ),
-            )
-          ] +
+                Container(
+                  height: widget.height,
+                  width: widget.width,
+                  padding: EdgeInsets.only(top: paddingTop),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          fit: BoxFit.fill,
+                          alignment: Alignment(0, 0),
+                          image: currentImage.image)),
+                  child: _children == null
+                      ? const SizedBox()
+                      : Row(
+                          mainAxisAlignment: widget.mainAxisAlignment,
+                          crossAxisAlignment: widget.crossAxisAlignment,
+                          children: _children,
+                        ),
+                )
+              ] +
               _label),
     );
   }

@@ -6,8 +6,7 @@ import '../../configs/configs.dart';
 import '../../utils/utils.dart';
 import '../resource.dart';
 
-class OtherRepository{
-
+class OtherRepository {
   ///http://relax365.net/hsmoreapp?os=
   Future<NetworkState<OtherApplication>> getMoreApps() async {
     bool isDisconnect = await WifiService.isDisconnect();
@@ -15,7 +14,7 @@ class OtherRepository{
     try {
       String api = AppEndpoint.MORE_APPS;
       Map<String, dynamic> params = {
-        "os" : Platform.isAndroid ? "android" : "ios"
+        "os": Platform.isAndroid ? "android" : "ios"
       };
       Response response = await AppClients().get(api, queryParameters: params);
       return NetworkState(
@@ -28,18 +27,17 @@ class OtherRepository{
   }
 
   ///http://relax365.net/hsdovuihainao
-  Future<NetworkState<QuestionModel>> getQuestionByIndex({int index = 0}) async {
+  Future<NetworkState<List<QuestionModel>>> getQuestionByIndex(
+      {int index = 0}) async {
     bool isDisconnect = await WifiService.isDisconnect();
     if (isDisconnect) return NetworkState.withDisconnect();
     try {
-      String api = AppEndpoint.MORE_APPS;
-      Map<String, dynamic> params = {
-        "os" : Platform.isAndroid ? "android" : "ios"
-      };
+      String api = AppEndpoint.GET_QUESTION;
+      Map<String, dynamic> params = {"id": index};
       Response response = await AppClients().get(api, queryParameters: params);
       return NetworkState(
         status: AppEndpoint.SUCCESS,
-        data: QuestionModel.fromJson(jsonDecode(response.data)),
+        data: QuestionModel.listFromJson(response.data),
       );
     } on DioError catch (e) {
       return NetworkState.withError(e);
