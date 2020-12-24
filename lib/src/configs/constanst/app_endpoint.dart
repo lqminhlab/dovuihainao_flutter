@@ -3,8 +3,8 @@ class AppEndpoint {
 
   static const String BASE_URL = "http://relax365.net";
 
-  static const int connectionTimeout = 1500;
-  static const int receiveTimeout = 1500;
+  static const int connectionTimeout = 3000;
+  static const int receiveTimeout = 3000;
   static const String keyAuthorization = "Authorization";
 
   static const int SUCCESS = 200;

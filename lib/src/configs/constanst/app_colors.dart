@@ -4,6 +4,7 @@ class AppColors {
   AppColors._();
 
   static final Color primary = Color.fromRGBO(246, 133, 14, 1);
+  static final Color yellow = Colors.yellow[600];
   static final Color grey = Colors.grey[300];
   static final Color black = Colors.black54;
   static final Color enableButton = Color.fromRGBO(246, 133, 14, 1);

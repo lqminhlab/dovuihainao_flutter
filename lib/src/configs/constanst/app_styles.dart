@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppStyles {
-  static const String FONT_MONTSERRAT = "Montserrat";
-  static const String FONT_SHRIKHAND = "Shrikhand";
+  static const String FONT_ITIM = "Itim";
+  static const String FONT_SUNSHINEY = "Sunshiney";
 
   static const FONT_SIZE_VERY_SMALL = 10.0;
   static const FONT_SIZE_SMALL = 12.0;

@@ -48,15 +48,19 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/fonts/
     - assets/langs/
     - assets/sound/
     - assets/images/
     - assets/images/background/
 
-#  fonts:
-#    - family: Shrikhand
-#      fonts:
-#        - asset: assets/fonts/Shrikhand-Regular.ttf
+  fonts:
+    - family: Itim
+      fonts:
+        - asset: assets/fonts/Itim_regular.ttf
+    - family: Sunshiney
+      fonts:
+        - asset: assets/fonts/Sunshiney_regular.ttf
 #    - family: Montserrat
 #      fonts:
 #        - asset: assets/fonts/Montserrat-MediumItalic.ttf

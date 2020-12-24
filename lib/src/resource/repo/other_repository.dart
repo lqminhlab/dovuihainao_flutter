@@ -35,6 +35,8 @@ class OtherRepository {
       String api = AppEndpoint.GET_QUESTION;
       Map<String, dynamic> params = {"id": index};
       Response response = await AppClients().get(api, queryParameters: params);
+      print(params);
+      print(response.data);
       return NetworkState(
         status: AppEndpoint.SUCCESS,
         data: QuestionModel.listFromJson(response.data),

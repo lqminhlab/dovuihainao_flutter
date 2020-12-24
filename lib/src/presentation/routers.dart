@@ -5,6 +5,7 @@ class Routers {
   static const String splash = "/";
   static const String start = "/start";
   static const String home = "/home";
+  static const String moreApp = "/more_app";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -16,6 +17,9 @@ class Routers {
         break;
       case home:
         return animRoute(HomeScreen());
+        break;
+      case moreApp:
+        return animRoute(MoreAppScreen());
         break;
       default:
         return animRoute(Container(

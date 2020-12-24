@@ -1,6 +1,7 @@
 import 'package:dovuihainao_flutter/src/configs/configs.dart';
 import 'package:dovuihainao_flutter/src/resource/model/process.dart';
 import 'package:dovuihainao_flutter/src/utils/app_shared.dart';
+import 'package:dovuihainao_flutter/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import '../base/base.dart';
 import 'package:provider/provider.dart';
@@ -56,7 +57,13 @@ class StartScreen extends StatelessWidget {
     return StreamBuilder<ProcessModel>(
         stream: AppShared.watchProcess(),
         builder: (context, snapshot) {
-          return Text("LV ${snapshot.data?.score ?? 1}");
+          return Text(
+            "Cấp độ ${snapshot.data?.score ?? 1}",
+            style: AppStyles.DEFAULT_MEDIUM.copyWith(
+                fontSize: 26,
+                fontFamily: AppStyles.FONT_SUNSHINEY,
+                fontWeight: FontWeight.w900),
+          );
         });
   }
 
@@ -66,7 +73,7 @@ class StartScreen extends StatelessWidget {
       children: [
         _buildLevel(),
         const SizedBox(
-          height: 25,
+          height: 30,
         ),
         WidgetImageButton(
           onTap: _viewModel.goToGame,
@@ -79,6 +86,17 @@ class StartScreen extends StatelessWidget {
           height: 15,
         ),
         WidgetImageButton(
+          onTap: _viewModel.goToGame,
+          width: width,
+          height: width / 3,
+          pressedImage: Image.asset(AppImages.imgBtnStartPress),
+          unpressedImage: Image.asset(AppImages.imgBtnStart),
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        WidgetImageButton(
+          onTap: _viewModel.goToMoreApp,
           width: width,
           height: width / 3,
           pressedImage: Image.asset(AppImages.imgBtnGameHotPress),
@@ -103,18 +121,18 @@ class StartScreen extends StatelessWidget {
   }
 
   Widget _buildRowButton() {
-    double size = 45;
+    double size = 35;
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         WidgetImageButton(
           width: size,
           height: size,
-          pressedImage: Image.asset(AppImages.imgBtnLikePress),
-          unpressedImage: Image.asset(AppImages.imgBtnLike),
+          pressedImage: Image.asset(AppImages.imgBtnLinkPress),
+          unpressedImage: Image.asset(AppImages.imgBtnLink),
         ),
         const SizedBox(
-          width: 15,
+          width: 8,
         ),
         WidgetImageButton(
           width: size,
@@ -123,14 +141,27 @@ class StartScreen extends StatelessWidget {
           unpressedImage: Image.asset(AppImages.imgBtnLike),
         ),
         const SizedBox(
-          width: 15,
+          width: 8,
         ),
-        WidgetImageButton(
-          width: size,
-          height: size,
-          pressedImage: Image.asset(AppImages.imgBtnLikePress),
-          unpressedImage: Image.asset(AppImages.imgBtnLike),
-        ),
+        StreamBuilder<ProcessModel>(
+            stream: AppShared.watchProcess(),
+            builder: (context, snapshot) {
+              bool status = snapshot.data?.sound ?? true;
+              return GestureDetector(
+                onTap: () {
+                  if (!status)
+                    AppSound.playLoopBackground("music_bg.mp3");
+                  else
+                    AppSound.stopSound(type: StopSoundType.loop);
+                  AppShared.setProcess(ProcessModel(sound: !status));
+                },
+                child: Image.asset(
+                  !status ? AppImages.imgBtnSoundOff : AppImages.imgBtnSoundOn,
+                  width: size,
+                  height: size,
+                ),
+              );
+            }),
       ],
     );
   }

@@ -35,6 +35,7 @@ class AppShared {
           : jsonEncode(ProcessModel(
               questions: data.questions ?? process.questions,
               score: data.score ?? process.score,
+              sound: data.sound ?? process.sound,
               offset: data.offset ?? process.offset,
               heart: data.heart ?? process.heart));
     else
@@ -48,5 +49,41 @@ class AppShared {
       return ProcessModel.fromJson(jsonDecode(dataString));
     else
       return null;
+  }
+
+  static Future<bool> setProcessIncrementScore() async {
+    ProcessModel process = await getProcess();
+    int score = process.score + 1;
+    print("Score decrement: $score");
+    String dataJson;
+    if (process != null)
+      dataJson = jsonEncode(process.copyWith(score: score));
+    else
+      dataJson = "";
+    return prefs.setString(keyProcess, dataJson);
+  }
+
+  static Future<bool> setProcessIncrementOffset() async {
+    ProcessModel process = await getProcess();
+    int offset = process.offset + 1;
+    print("offset decrement: $offset");
+    String dataJson;
+    if (process != null)
+      dataJson = jsonEncode(process.copyWith(offset: offset));
+    else
+      dataJson = "";
+    return prefs.setString(keyProcess, dataJson);
+  }
+
+  static Future<bool> setProcessDecrementHeart() async {
+    ProcessModel process = await getProcess();
+    int heart = process.heart - 1;
+    print("Heart decrement: $heart");
+    String dataJson;
+    if (process != null)
+      dataJson = jsonEncode(process.copyWith(heart: heart));
+    else
+      dataJson = "";
+    return prefs.setString(keyProcess, dataJson);
   }
 }

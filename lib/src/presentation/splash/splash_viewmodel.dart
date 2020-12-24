@@ -44,18 +44,20 @@ class SplashViewModel extends BaseViewModel {
         process.offset == null ||
         process.questions == null) {
       index = 0;
-      process = ProcessModel(score: 1, offset: index, heart: 5);
+      process = ProcessModel(score: 1, offset: index, heart: 5, sound: true);
     } else {
-      index = process.offset - process.questions.length;
+      index = process.offset;
       process.copyWith(heart: 5);
     }
     final NetworkState<List<QuestionModel>> rs =
         await repository.getQuestionByIndex(index: index);
     if (rs?.data != null && rs?.data?.length != 0) {
-      await AppShared.setProcess(process.copyWith(questions: rs.data));
+      await AppShared.setProcess(
+          process.copyWith(questions: rs.data, heart: AppValues.MAX_HEART));
       AppPreloadAsset.preloadImages(context: context, images: images);
       AppPreloadAsset.preloadSounds(sounds: sounds);
-      Navigator.pushNamed(context, Routers.start);
+      AppSound.playLoopBackground("music_bg.mp3");
+      Navigator.pushReplacementNamed(context, Routers.start);
     } else {
       print("Error get question!");
     }

@@ -21,7 +21,7 @@ class WidgetImageButton extends StatefulWidget {
       this.onTap,
       this.width,
       this.height,
-      this.paddingTop = 5,
+      this.paddingTop = 4,
       this.mainAxisAlignment = MainAxisAlignment.center,
       this.crossAxisAlignment = CrossAxisAlignment.center})
       : super(key: key);

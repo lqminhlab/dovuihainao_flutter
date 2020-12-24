@@ -4,16 +4,24 @@ class ProcessModel {
   int score;
   int offset;
   int heart;
+  bool sound;
   List<QuestionModel> questions;
 
-  ProcessModel({this.questions, this.heart, this.offset, this.score});
+  ProcessModel(
+      {this.questions, this.heart, this.offset, this.score, this.sound});
 
   ProcessModel copyWith(
-      {List<QuestionModel> questions, int heart, int offset, int score}) {
-    return ProcessModel(questions: questions ?? this.questions,
+      {List<QuestionModel> questions,
+      int heart,
+      int offset,
+      int score,
+      bool sound}) {
+    return ProcessModel(
+        questions: questions ?? this.questions,
         offset: offset ?? this.offset,
         score: score ?? this.score,
-        heart : heart ?? this.heart);
+        heart: heart ?? this.heart,
+        sound: sound ?? this.sound);
   }
 
   ProcessModel.fromJson(dynamic json) {
@@ -23,6 +31,7 @@ class ProcessModel {
     score = json["score"];
     heart = json["heart"];
     offset = json["offset"];
+    sound = json["sound"];
   }
 
   Map<String, dynamic> toJson() {
@@ -31,6 +40,7 @@ class ProcessModel {
     map["score"] = score;
     map["heart"] = heart;
     map["offset"] = offset;
+    map["sound"] = sound;
     return map;
   }
 }
