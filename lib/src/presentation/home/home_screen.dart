@@ -3,6 +3,7 @@ import 'package:dovuihainao_flutter/src/resource/model/model.dart';
 import 'package:dovuihainao_flutter/src/utils/app_shared.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:screenshot/screenshot.dart';
 import '../base/base.dart';
 import 'package:provider/provider.dart';
 
@@ -57,40 +58,48 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   Widget _buildBody(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      children: [
-        Container(
-          width: double.maxFinite,
-          height: double.maxFinite,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(AppImages.bgHome), fit: BoxFit.cover)),
-        ),
-        SafeArea(
-          child: Stack(
-            children: [
-              Column(
-                children: [WidgetAppBar(), _buildGameBoard()],
-              ),
-              WidgetVictory(
-                  victorySubject: _viewModel.victorySubject,
-                  explainSubject: _viewModel.explainSubject,
-                  animationHand: animationVictory,
-                  callback: _viewModel.updateWin),
-              WidgetLose(
-                  loseSubject: _viewModel.loseSubject,
-                  explainSubject: _viewModel.explainSubject,
-                  animation: animationLoseController,
-                  callback: _viewModel.updateLose),
-              WidgetGameOver(
-                  gameOverSubject: _viewModel.gameOverSubject,
-                  animation: animationLoseController,
-                  callback: _viewModel.gameOver)
-            ],
-          ),
-        ),
-      ],
-    ));
+        body: Screenshot(
+            controller: _viewModel.screenshotController,
+            child: Stack(
+              children: [
+                Container(
+                  width: double.maxFinite,
+                  height: double.maxFinite,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(AppImages.bgHome),
+                          fit: BoxFit.cover)),
+                ),
+                SafeArea(
+                  child: Stack(
+                    children: [
+                      Column(
+                        children: [
+                          WidgetAppBar(
+                            actionShareQuestion: _viewModel.shareQuestion,
+                          ),
+                          _buildGameBoard()
+                        ],
+                      ),
+                      WidgetVictory(
+                          victorySubject: _viewModel.victorySubject,
+                          explainSubject: _viewModel.explainSubject,
+                          animationHand: animationVictory,
+                          callback: _viewModel.updateWin),
+                      WidgetLose(
+                          loseSubject: _viewModel.loseSubject,
+                          explainSubject: _viewModel.explainSubject,
+                          animation: animationLoseController,
+                          callback: _viewModel.updateLose),
+                      WidgetGameOver(
+                          gameOverSubject: _viewModel.gameOverSubject,
+                          animation: animationLoseController,
+                          callback: _viewModel.gameOver)
+                    ],
+                  ),
+                ),
+              ],
+            )));
   }
 
   Widget _buildGameBoard() {

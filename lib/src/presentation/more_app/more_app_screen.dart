@@ -2,12 +2,13 @@ import 'package:dovuihainao_flutter/src/configs/configs.dart';
 import 'package:dovuihainao_flutter/src/resource/resource.dart';
 import 'package:dovuihainao_flutter/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 import '../presentation.dart';
 
 class MoreAppScreen extends StatelessWidget {
-  static const double HEIGHT_APP_BAR = 120;
+  static const double HEIGHT_APP_BAR = 100;
   MoreAppViewModel _viewModel;
 
   @override
@@ -43,9 +44,30 @@ class MoreAppScreen extends StatelessWidget {
   }
 
   Widget _buildMoreApp() {
-    return Expanded(child: FutureBuilder<List<Apps>>(
+    return Expanded(
+        child: FutureBuilder<List<Apps>>(
+      future: _viewModel.getMoreApps(),
       builder: (context, snapshot) {
-        return ListView.builder(itemBuilder: (context, index) => WidgetApp());
+        List<Apps> apps = snapshot.data ?? [];
+        if (snapshot.connectionState == ConnectionState.done)
+          return RefreshIndicator(
+            onRefresh: _viewModel.refresh,
+            child: ListView.builder(
+                padding: const EdgeInsets.only(bottom: 10, top: 5),
+                physics: BouncingScrollPhysics(),
+                itemCount: apps.length == 0 ? 1 : apps.length,
+                itemBuilder: apps.length == 0
+                    ? (context, index) => SizedBox(
+                          width: double.maxFinite,
+                          height: Get.height,
+                        )
+                    : (context, index) => WidgetApp(
+                          app: apps[index],
+                        )),
+          );
+        return Center(
+          child: WidgetCircleProgress(),
+        );
       },
     ));
   }
@@ -56,13 +78,14 @@ class MoreAppScreen extends StatelessWidget {
       height: HEIGHT_APP_BAR,
       width: double.maxFinite,
       decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(AppImages.bgAppBarMoreApp))),
+          image: DecorationImage(
+              image: AssetImage(AppImages.bgAppBarMoreApp), fit: BoxFit.fill)),
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: Stack(
         children: [
-          Center(child: Image.asset(AppImages.imgMoreApp)),
+          Center(child: Image.asset(AppImages.imgMoreApp, fit: BoxFit.fill)),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10),
+            padding: const EdgeInsets.only(bottom: 10, left: 10),
             child: WidgetImageButton(
               onTap: () {
                 AppSound.play("back.wav");

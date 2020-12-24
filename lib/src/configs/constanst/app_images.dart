@@ -23,7 +23,8 @@ class AppImages {
   static final String imgBtnSoundOn = 'assets/images/btnonvolume.png';
   static final String imgBtnSoundOff = 'assets/images/btnoffvolume.png';
   static final String imgBtnLinkScreenshot = 'assets/images/btnscreenshot.png';
-  static final String imgBtnLinkScreenshotPress = 'assets/images/btnscreenshot2.png';
+  static final String imgBtnLinkScreenshotPress =
+      'assets/images/btnscreenshot2.png';
   static final String imgBtnStart = 'assets/images/playgame1.png';
   static final String imgBtnStartPress = 'assets/images/playgame2.png';
   static final String imgBtnAgain = 'assets/images/playagain1.png';
@@ -37,6 +38,8 @@ class AppImages {
   static final String imgLoseFace = 'assets/images/loseface.png';
   static final String imgLoseHand = 'assets/images/losehand.png';
   static final String imgMoreApp = 'assets/images/moreapp.png';
+  static final String imgDown = 'assets/images/download1.png';
+  static final String imgDownPress = 'assets/images/download2.png';
 
   static final String icAnswerA = "assets/images/choose1.png";
   static final String icAnswerB = "assets/images/choose2.png";

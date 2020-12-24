@@ -4,7 +4,6 @@ import 'package:dovuihainao_flutter/src/utils/app_shared.dart';
 import 'package:dovuihainao_flutter/src/utils/utils.dart';
 import 'package:flutter/material.dart';
 import '../base/base.dart';
-import 'package:provider/provider.dart';
 
 import '../presentation.dart';
 
@@ -14,7 +13,7 @@ class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<StartViewModel>(
-        viewModel: StartViewModel(repository: Provider.of(context)),
+        viewModel: StartViewModel(),
         onViewModelReady: (viewModel) {
           _viewModel = viewModel..init();
         },
@@ -86,16 +85,6 @@ class StartScreen extends StatelessWidget {
           height: 15,
         ),
         WidgetImageButton(
-          onTap: _viewModel.goToGame,
-          width: width,
-          height: width / 3,
-          pressedImage: Image.asset(AppImages.imgBtnStartPress),
-          unpressedImage: Image.asset(AppImages.imgBtnStart),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        WidgetImageButton(
           onTap: _viewModel.goToMoreApp,
           width: width,
           height: width / 3,
@@ -126,6 +115,7 @@ class StartScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         WidgetImageButton(
+          onTap: _viewModel.shareURL,
           width: size,
           height: size,
           pressedImage: Image.asset(AppImages.imgBtnLinkPress),
@@ -135,6 +125,7 @@ class StartScreen extends StatelessWidget {
           width: 8,
         ),
         WidgetImageButton(
+          onTap: _viewModel.rateApp,
           width: size,
           height: size,
           pressedImage: Image.asset(AppImages.imgBtnLikePress),

@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 
 import 'package:dovuihainao_flutter/src/configs/configs.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:dovuihainao_flutter/src/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:screenshot/screenshot.dart';
 import 'package:toast/toast.dart';
 import '../../resource/resource.dart';
 import '../base/base.dart';
@@ -26,6 +30,7 @@ class HomeViewModel extends BaseViewModel {
   final BehaviorSubject<bool> gameOverSubject =
       new BehaviorSubject.seeded(false);
   final BehaviorSubject<String> explainSubject = new BehaviorSubject.seeded("");
+  final ScreenshotController screenshotController = ScreenshotController();
 
   bool get disposeAnswer =>
       victorySubject.value || loseSubject.value || gameOverSubject.value;
@@ -69,6 +74,38 @@ class HomeViewModel extends BaseViewModel {
   void gameOver() async {
     await AppShared.setProcess(ProcessModel(heart: AppValues.MAX_HEART));
     Navigator.pop(context);
+  }
+
+  void shareQuestion() async {
+    var status = await Permission.storage.status;
+    if (status.isGranted) {
+      Toast.show("Đang xử lý...", context, duration: Toast.LENGTH_SHORT);
+      screenshotController
+          .capture(delay: Duration(milliseconds: 10), pixelRatio: 3)
+          .then((File image) async {
+        try {
+          await ImageGallerySaver.saveImage(image.readAsBytesSync(),
+              quality: 100);
+          toastSaveImage(true);
+        } catch (e) {
+          toastSaveImage(false);
+        }
+      }, onError: (e) {});
+    } else if (status.isDenied)
+      toastSaveImage(false);
+    else {
+      await Permission.storage.request();
+      shareQuestion();
+    }
+  }
+
+  void toastSaveImage(bool status) {
+    Toast.show(
+        status
+            ? "Lưu câu hỏi thành công.\nChia sẽ với bạn bè để được giúp đỡ!"
+            : "Lỗi khi lưu câu hỏi!",
+        context,
+        duration: Toast.LENGTH_LONG);
   }
 
   Future<QuestionModel> randomQuestion() async {

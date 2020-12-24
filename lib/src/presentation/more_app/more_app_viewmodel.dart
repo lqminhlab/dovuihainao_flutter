@@ -8,8 +8,13 @@ class MoreAppViewModel extends BaseViewModel {
 
   MoreAppViewModel({@required this.repository});
 
-  Future<OtherApplication> getMoreApp() async {
+  Future<List<Apps>> getMoreApps() async {
     final NetworkState<OtherApplication> rs = await repository.getMoreApps();
-    return rs?.data ?? [];
+    return rs?.data?.apps ?? [];
+  }
+
+  Future refresh() async {
+    await Future.delayed(Duration(seconds: 1));
+    notifyListeners();
   }
 }

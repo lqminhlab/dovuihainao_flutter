@@ -8,6 +8,10 @@ import '../../presentation.dart';
 class WidgetAppBar extends StatelessWidget {
   static const double HEIGHT_APP_BAR = 60;
 
+  final Function actionShareQuestion;
+
+  const WidgetAppBar({this.actionShareQuestion});
+
   @override
   Widget build(BuildContext context) {
     double size = 40;
@@ -75,7 +79,7 @@ class WidgetAppBar extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 10),
             child: WidgetImageButton(
-              onTap: () => Navigator.pop(context),
+              onTap: actionShareQuestion,
               width: size,
               height: size,
               pressedImage: Image.asset(AppImages.imgBtnLinkScreenshotPress),
